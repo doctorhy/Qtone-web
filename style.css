@@ -1,0 +1,207 @@
+@font-face {
+  font-family: 'Audiowide';
+  src: url('fonts/Audiowide-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  background: #181A20;
+  color: #E0E0E0;
+  font-family: 'Audiowide', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  overflow: hidden;
+  touch-action: none;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 16px;
+}
+
+#title {
+  font-size: 38px;
+  color: #7F5FFF;
+  margin-bottom: 16px;
+  margin-top: 8px;
+  letter-spacing: 2px;
+}
+
+#tuner-container {
+  position: relative;
+  width: 340px;
+  height: 340px;
+}
+
+#tuner-canvas {
+  width: 340px;
+  height: 340px;
+  display: block;
+}
+
+#center-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+#note-name {
+  font-size: 36px;
+  color: #E0E0E0;
+  line-height: 1.1;
+}
+
+#quarter-name {
+  font-size: 20px;
+  color: #7F5FFF;
+  line-height: 1.3;
+}
+
+#cents-display {
+  font-size: 18px;
+  color: rgba(128, 128, 128, 0.7);
+  line-height: 1.3;
+}
+
+#cents-display.in-tune {
+  color: #00FFC6;
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.control-label {
+  font-size: 16px;
+  color: #7F5FFF;
+  margin-bottom: 2px;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #23243A;
+  border-radius: 20px;
+  border: 1px solid #7F5FFF;
+  padding: 2px 6px;
+  height: 36px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+
+.control-row span {
+  font-size: 18px;
+  min-width: 36px;
+  text-align: center;
+  color: #E0E0E0;
+}
+
+#pitch-value {
+  min-width: 64px;
+}
+
+.circle-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #7F5FFF;
+  color: white;
+  font-family: 'Audiowide', sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+}
+
+.circle-btn:active {
+  opacity: 0.7;
+}
+
+.sound-row {
+  display: flex;
+  gap: 8px;
+}
+
+.sound-btn {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 14px;
+  color: #7F5FFF;
+  background: #23243A;
+  border: 1px solid #7F5FFF;
+  border-radius: 20px;
+  padding: 0 16px;
+  height: 32px;
+  cursor: pointer;
+  min-width: 90px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+
+.sound-btn.selected {
+  background: #7F5FFF;
+  color: white;
+}
+
+.sound-btn:active {
+  opacity: 0.7;
+}
+
+#mic-prompt {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24, 26, 32, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+#mic-prompt p {
+  font-size: 20px;
+  color: #7F5FFF;
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-height: 700px) {
+  #title { font-size: 28px; margin-bottom: 8px; margin-top: 4px; }
+  #tuner-container { width: 280px; height: 280px; }
+  #tuner-canvas { width: 280px; height: 280px; }
+  #note-name { font-size: 28px; }
+  #quarter-name { font-size: 16px; }
+  #cents-display { font-size: 14px; }
+  #controls { gap: 8px; margin-top: 8px; }
+}

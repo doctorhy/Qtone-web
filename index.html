@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Qtone – Quarter-Tone Tuner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <h1 id="title">Qtone</h1>
+
+    <div id="tuner-container">
+      <canvas id="tuner-canvas"></canvas>
+      <div id="center-display">
+        <div id="note-name">--</div>
+        <div id="quarter-name">--</div>
+        <div id="cents-display">0 cents</div>
+      </div>
+    </div>
+
+    <div id="controls">
+      <div class="control-group">
+        <div class="control-label">Octave</div>
+        <div class="control-row">
+          <button class="circle-btn" id="octave-down">-</button>
+          <span id="octave-value">4</span>
+          <button class="circle-btn" id="octave-up">+</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">Pitch</div>
+        <div class="control-row">
+          <button class="circle-btn" id="pitch-down">-</button>
+          <span id="pitch-value">+0 ct</span>
+          <button class="circle-btn" id="pitch-up">+</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">Sound</div>
+        <div class="sound-row">
+          <button class="sound-btn" data-sound="sine">Sine</button>
+          <button class="sound-btn selected" data-sound="triangle">Triangle</button>
+          <button class="sound-btn" data-sound="square">Square</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mic-prompt" style="display:none;">
+      <p>Tap anywhere to enable microphone</p>
+    </div>
+  </div>
+
+  <script src="pitch-detect.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
