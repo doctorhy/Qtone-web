@@ -21,7 +21,6 @@ const AudioEngine = (() => {
 
   // Reference tone state
   let selectedWaveform = 'triangle';
-  let fineTuneCents = 0;
 
   const AMPLITUDE_THRESHOLD = 0.005;
   const PITCH_SMOOTHING = 0.7;
@@ -157,15 +156,6 @@ const AudioEngine = (() => {
     selectedWaveform = type;
   }
 
-  function setFineTuneCents(cents) {
-    fineTuneCents = cents;
-  }
-
-  function applyFineTune(frequency) {
-    if (fineTuneCents === 0) return frequency;
-    return frequency * Math.pow(2, fineTuneCents / 1200);
-  }
-
   let toneAudioEl = null; // <audio> element for tone playback
 
   /**
@@ -249,8 +239,7 @@ const AudioEngine = (() => {
 
   function startTone(frequency) {
     stopTone();
-    const freq = applyFineTune(frequency);
-    const dataUri = generateToneWav(freq, selectedWaveform, 44100, 10.0);
+    const dataUri = generateToneWav(frequency, selectedWaveform, 44100, 10.0);
 
     toneAudioEl = new Audio(dataUri);
     toneAudioEl.loop = true;
@@ -283,11 +272,9 @@ const AudioEngine = (() => {
     startMicrophone,
     stopMicrophone,
     setWaveform,
-    setFineTuneCents,
     startTone,
     stopTone,
     smoothCents,
-    get fineTuneCents() { return fineTuneCents; },
     get selectedWaveform() { return selectedWaveform; }
   };
 })();

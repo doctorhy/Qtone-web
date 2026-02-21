@@ -13,7 +13,7 @@ Designed for musicians who work with Persian dastgah, Arabic maqam, Turkish maka
 Qtone Web has two main functions:
 
 1. **Tuner** — Listens through your microphone, detects the pitch in real time, and shows the closest note with cents deviation on a circular display. Supports both 12-tone (semitones) and 24-tone (quarter-tones).
-2. **Reference Tone Generator** — Tap any note on the circle to hear it played back at the correct pitch. Choose from Sine, Triangle, or Square waveforms, adjust the octave, and fine-tune by ±50 cents.
+2. **Reference Tone Generator** — Tap any note on the circle to hear it played back at the correct pitch. Choose from Sine, Triangle, or Square waveforms and adjust the octave.
 
 ## Features
 
@@ -27,7 +27,7 @@ Qtone Web has two main functions:
   - Center: displays detected note name, quarter-tone name, and cents deviation
 - **Reference Sounds** — Three waveform options (Sine, Triangle, Square), all mathematically generated for perfect tuning across all octaves
 - **Octave Selection** — Choose octave 0–8 for reference tone playback
-- **Fine Tuning** — Adjust reference pitch by ±50 cents
+- **Independent Sori/Koron Offsets** — Set sori (+) and koron (-) independently to 42, 50, or 58 cents
 - **Responsive** — Works on desktop and mobile browsers
 
 ## Quarter-Tone Notation
@@ -37,7 +37,7 @@ Quarter-tones are microtonal intervals that fall between standard semitones. Qto
 - **+ ([sori](https://en.wikipedia.org/wiki/Sori_(music)) / half-sharp)** — The note is raised by approximately 42 cents above the natural note. For example, **Do+** is between Do and Do#.
 - **- ([koron](https://en.wikipedia.org/wiki/Koron_(music)) / half-flat)** — The note is lowered by approximately 42 cents below the natural note. For example, **Re-** is between Do# and Re.
 
-In Persian music, these quarter-tone accidentals are called **sori** (+) and **koron** (-). The default interval between two adjacent quarter-tones is **42 cents**.
+In Persian music, these quarter-tone accidentals are called **sori** (+) and **koron** (-). The default interval is **42 cents**, but each can be independently set to **42**, **50**, or **58** cents to match different maqam/dastgah tuning systems.
 
 ## Center Display
 
@@ -77,14 +77,18 @@ Below the tuner circle, there are three control sections:
 ### Octave (+/-)
 Sets the octave for reference tone playback, from **0** (lowest) to **8** (highest). The default is **4** (middle octave, where La = 440 Hz). Tap **-** to go lower, **+** to go higher.
 
-### Pitch (+/-)
-Fine-tunes the reference tone pitch by **±1 cent** per tap, up to a maximum of **±50 cents**. This is useful for matching a slightly detuned instrument. Displays the current offset, e.g., **+3 ct** means 3 cents sharp. Resets to **0** when switching sounds.
-
 ### Sound (Sine / Triangle / Square)
 Selects the waveform used for reference tone playback:
 - **Sine** — Pure, clean tone. Best for precise tuning.
 - **Triangle** — Warmer, softer tone with a flute-like quality (default). Louder on phone speakers.
 - **Square** — Hollow, clarinet-like tone with a stronger harmonic character.
+
+### Quarter-tone (Koron - / Sori +)
+Sets the quarter-tone offset for each accidental independently. Choose **42**, **50**, or **58** cents for each:
+- **Koron (-)** — How many cents flat from the next semitone above. Default: **42**.
+- **Sori (+)** — How many cents sharp from the semitone below. Default: **42**.
+
+Different maqams and dastgahs use different quarter-tone intervals. For example, a sori of 58 cents places the quarter-tone closer to the semitone above (equivalent to a koron of 42 cents from that semitone).
 
 ## Tech Stack
 

@@ -26,7 +26,6 @@
 
   // ── State ──
   let selectedOctave = 4;
-  let fineTuneCents = 0;
   let detectedNote = '--';
   let detectedOctave = -1;
   let detectedCents = 0;
@@ -35,6 +34,8 @@
   let lastPlayedType = '';
   let isPlaying = false;
   let micStarted = false;
+  let soriCents = 42;   // + offset: 42, 50, or 58
+  let koronCents = 42;  // - offset: 42, 50, or 58
 
   // When playing a reference tone, show the played note directly
   // instead of relying on the mic to detect its own output.
@@ -112,10 +113,14 @@
       // Apply extra smoothing on cents for stable display
       detectedCents = AudioEngine.smoothCents(noteIndex, cents);
 
-      // Use smoothed cents for quarter-tone name to match indicator/display
-      const totalQ = noteIndex * 2 + (detectedCents / 50);
-      const roundedQ = Math.round(totalQ);
-      const qIdx = ((roundedQ % 24) + 24) % 24;
+      // Use smoothed cents to determine quarter-tone name
+      let totalQ;
+      if (detectedCents >= 0) {
+        totalQ = noteIndex * 2 + (detectedCents >= soriCents / 2 ? 1 : 0);
+      } else {
+        totalQ = noteIndex * 2 + (detectedCents <= -koronCents / 2 ? -1 : 0);
+      }
+      const qIdx = ((totalQ % 24) + 24) % 24;
       detectedQuarter = ALL_24_NAMES[qIdx];
     }
   }
@@ -159,7 +164,14 @@
     const cents = activeNote === '--' ? 0 : activeCents;
 
     // iOS formula: totalQ * 360/24 - 90 - 15 (degrees)
-    const totalQ = idx * 2 + cents / 50;
+    let totalQ;
+    if (playingNote) {
+      totalQ = idx * 2 + (cents > 0 ? cents / soriCents : cents / koronCents);
+    } else if (cents >= 0) {
+      totalQ = idx * 2 + cents / soriCents;
+    } else {
+      totalQ = idx * 2 + cents / koronCents;
+    }
     const angleDeg = totalQ * 360 / 24 - 90 - 15;
     const startRad = angleDeg * DEG;
     const spanRad = SEG_ANGLE; // 30° = 1/12 circle
@@ -268,7 +280,8 @@
     const octStr = activeOctave === -1 ? '-' : String(activeOctave);
     noteEl.textContent = activeNote + octStr;
     quarterEl.textContent = activeQuarter;
-    const clampedCents = Math.max(-50, Math.min(50, activeCents));
+    const maxCents = Math.max(soriCents, koronCents);
+    const clampedCents = Math.max(-maxCents, Math.min(maxCents, activeCents));
     centsEl.textContent = Math.round(clampedCents) + ' cents';
     if (Math.abs(activeCents) <= 5 && activeNote !== '--') {
       centsEl.classList.add('in-tune');
@@ -371,10 +384,10 @@
     let baseNoteIndex, quarterOffset;
     if (isPlus) {
       baseNoteIndex = quarterIndex % 12;
-      quarterOffset = 42;
+      quarterOffset = soriCents;
     } else if (isMinus) {
       baseNoteIndex = (quarterIndex + 1) % 12;
-      quarterOffset = -42;
+      quarterOffset = -koronCents;
     } else {
       baseNoteIndex = quarterIndex % 12;
       quarterOffset = 0;
@@ -455,34 +468,22 @@
     }
   });
 
-  function updatePitchDisplay() {
-    const sign = fineTuneCents >= 0 ? '+' : '';
-    document.getElementById('pitch-value').textContent = sign + fineTuneCents + ' ct';
-  }
-
-  document.getElementById('pitch-down').addEventListener('click', () => {
-    if (fineTuneCents > -50) {
-      fineTuneCents--;
-      AudioEngine.setFineTuneCents(fineTuneCents);
-      updatePitchDisplay();
-    }
-  });
-  document.getElementById('pitch-up').addEventListener('click', () => {
-    if (fineTuneCents < 50) {
-      fineTuneCents++;
-      AudioEngine.setFineTuneCents(fineTuneCents);
-      updatePitchDisplay();
-    }
-  });
-
   document.querySelectorAll('.sound-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       AudioEngine.setWaveform(btn.dataset.sound);
-      fineTuneCents = 0;
-      AudioEngine.setFineTuneCents(0);
-      updatePitchDisplay();
+    });
+  });
+
+  document.querySelectorAll('.qt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.qt; // 'sori' or 'koron'
+      const val = parseInt(btn.dataset.val, 10);
+      document.querySelectorAll(`.qt-btn[data-qt="${group}"]`).forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      if (group === 'sori') soriCents = val;
+      else koronCents = val;
     });
   });
 

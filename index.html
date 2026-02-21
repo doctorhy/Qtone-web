@@ -30,20 +30,32 @@
       </div>
 
       <div class="control-group">
-        <div class="control-label">Pitch</div>
-        <div class="control-row">
-          <button class="circle-btn" id="pitch-down">-</button>
-          <span id="pitch-value">+0 ct</span>
-          <button class="circle-btn" id="pitch-up">+</button>
-        </div>
-      </div>
-
-      <div class="control-group">
         <div class="control-label">Sound</div>
         <div class="sound-row">
           <button class="sound-btn" data-sound="sine">Sine</button>
           <button class="sound-btn selected" data-sound="triangle">Triangle</button>
           <button class="sound-btn" data-sound="square">Square</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="control-label">Quarter-tone</div>
+        <div class="qt-row">
+          <div class="qt-group">
+            <span class="qt-label">Koron -</span>
+            <div class="qt-toggle">
+              <button class="qt-btn selected" data-qt="koron" data-val="42">42</button>
+              <button class="qt-btn" data-qt="koron" data-val="50">50</button>
+              <button class="qt-btn" data-qt="koron" data-val="58">58</button>
+            </div>
+          </div>
+          <div class="qt-group">
+            <span class="qt-label">Sori +</span>
+            <div class="qt-toggle">
+              <button class="qt-btn selected" data-qt="sori" data-val="42">42</button>
+              <button class="qt-btn" data-qt="sori" data-val="50">50</button>
+              <button class="qt-btn" data-qt="sori" data-val="58">58</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
